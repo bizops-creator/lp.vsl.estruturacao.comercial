@@ -1,0 +1,47 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function incoming() { return request.resource.data; }
+    function isSignedIn() { return request.auth != null; }
+
+    function isValidEbookDownload(data) {
+      return data.keys().hasAll(['name', 'email', 'phone', 'createdAt']) 
+        && data.keys().size() >= 4
+        && data.keys().size() <= 5
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 100
+        && data.email is string && data.email.size() > 3 && data.email.size() <= 100
+        && data.phone is string && data.phone.size() >= 8 && data.phone.size() <= 20
+        && (data.get('revenue', '') is string)
+        && data.createdAt == request.time;
+    }
+
+    function isValidServiceApplication(data) {
+      return data.keys().hasAll(['name', 'email', 'phone', 'createdAt']) 
+        && data.keys().size() == 4
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 100
+        && data.email is string && data.email.size() > 3 && data.email.size() <= 100
+        && data.phone is string && data.phone.size() >= 8 && data.phone.size() <= 20
+        && data.createdAt == request.time;
+    }
+
+    match /ebookDownloads/{downloadId} {
+      allow create: if isValidEbookDownload(incoming());
+      allow read: if false; 
+    }
+
+    match /serviceApplications/{applicationId} {
+      allow create: if isValidServiceApplication(incoming());
+      allow read: if false; 
+    }
+
+    match /logos/{logoId} {
+      allow read: if true;
+      allow write: if false; // Only manageable via Firebase Console or Admin SDK for safety
+    }
+  }
+}

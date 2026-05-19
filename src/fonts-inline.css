@@ -1,0 +1,19 @@
+/* 
+  VALEUR CUSTOM FONTS - BASE64 INLINE
+  Paste your base64 data here.
+*/
+@font-face {
+  font-family: 'Accidental Presidency';
+  src: url('data:font/truetype;base64,PLACEHOLDER_ACCIDENTAL_BASE64') format('truetype');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Publica Play';
+  src: url('data:font/opentype;base64,PLACEHOLDER_PUBLICA_BASE64') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

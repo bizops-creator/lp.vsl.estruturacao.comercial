@@ -1,0 +1,54 @@
+{
+  "entities": {
+    "ebookDownloads": {
+      "title": "Ebook Downloads",
+      "description": "Leads who downloaded the Valeur playbook",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Full Name" },
+        "email": { "type": "string", "description": "Email Address" },
+        "phone": { "type": "string", "description": "WhatsApp/Phone" },
+        "revenue": { "type": "string", "description": "Monthly Revenue Range" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp" }
+      },
+      "required": ["name", "email", "phone", "createdAt"]
+    },
+    "serviceApplications": {
+      "title": "Service Applications",
+      "description": "Leads applying for the commercial diagnostic",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Lead Name" },
+        "email": { "type": "string", "description": "Lead Email" },
+        "phone": { "type": "string", "description": "Lead Contact" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Submission time" }
+      },
+      "required": ["name", "email", "phone", "createdAt"]
+    },
+    "logos": {
+      "title": "Client Logos",
+      "description": "Logos of companies that have scaled with Valeur",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Company Name" },
+        "url": { "type": "string", "description": "Logo Image URL" },
+        "order": { "type": "number", "description": "Display order" }
+      },
+      "required": ["name", "url"]
+    }
+  },
+  "firestore": {
+    "ebookDownloads": {
+      "schema": "ebookDownloads",
+      "description": "Collection of playbook download leads"
+    },
+    "serviceApplications": {
+      "schema": "serviceApplications",
+      "description": "Collection of diagnostic application leads"
+    },
+    "logos": {
+      "schema": "logos",
+      "description": "Collection of client logos for social proof"
+    }
+  }
+}
