@@ -1,0 +1,25 @@
+# Logo folder
+This folder should contain the client logos:
+- orbit.png
+- echo.png
+- flux.png
+- vertex.png
+- strata.png
+- nova.png
+- aura.png
+- omni.png
+- tether.png
+- prisma.png
+- forge.png
+- aegis.png
+- kinetix.png
+- parallax.png
+- pulsar.png
+- zenith.png
+- quasar.png
+- lumi.png
+- nexa.png
+- zynk.png
+- koda.png
+- velo.png
+- nexus.png

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import YouTube, { YouTubeProps } from 'react-youtube';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query, addDoc } from 'firebase/firestore';
 import { db } from './firebase';
+import { CLIENTS } from './data/clients';
 
 export default function App() {
   const [videoEnded, setVideoEnded] = useState(false);
@@ -31,8 +32,11 @@ export default function App() {
     }
   };
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: string, value: string, autoAdvance = false) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    if (autoAdvance && currentStep < 5) {
+      setTimeout(() => nextStep(), 400);
+    }
   };
 
   const handlePhoneChange = (value: string) => {
@@ -121,21 +125,21 @@ export default function App() {
         transition={{ delay: index * 0.05 }}
         whileHover={{ scale: 1.01, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.05)" }}
         whileTap={{ scale: 0.98 }}
-        onClick={() => handleInputChange(field, value)}
+        onClick={() => handleInputChange(field, value, true)}
         className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-300 flex items-center gap-4 group relative overflow-hidden ${
           isSelected 
-            ? 'border-[#D9B26E] bg-gradient-to-br from-white to-[#FDF9F3] shadow-[0_15px_35px_rgba(217,178,110,0.12)]' 
+            ? 'border-[#0C0C0C] bg-gradient-to-br from-white to-gray-50 shadow-[0_15px_35px_rgba(0,0,0,0.06)]' 
             : 'border-white bg-white hover:border-gray-100 shadow-sm hover:shadow-md'
         }`}
       >
         {isSelected && (
           <motion.div 
             layoutId="active-bg"
-            className="absolute inset-0 bg-gradient-to-br from-[#D9B26E]/5 to-transparent pointer-events-none"
+            className="absolute inset-0 bg-gradient-to-br from-black/5 to-transparent pointer-events-none"
           />
         )}
         <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-all duration-300 ${
-          isSelected ? 'border-[#D9B26E] bg-[#D9B26E] scale-110 shadow-[0_0_15px_rgba(217,178,110,0.5)]' : 'border-gray-200 group-hover:border-[#D9B26E]/30'
+          isSelected ? 'border-[#0C0C0C] bg-[#0C0C0C] scale-110' : 'border-gray-200 group-hover:border-black/30'
         }`}>
           {isSelected && (
             <motion.div 
@@ -155,10 +159,19 @@ export default function App() {
   };
 
   const TrustSignals = () => (
-    <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 mt-10 text-[10px] font-black text-gray-400 uppercase tracking-widest">
-       <div className="flex items-center gap-2.5"><div className="w-2 h-2 rounded-full bg-[#D9B26E] animate-pulse" /> +2.500 Diagnósticos Realizados</div>
-       <div className="flex items-center gap-2.5"><div className="w-2 h-2 rounded-full bg-[#D9B26E]" /> Metodologia Valeur 2.0</div>
-       <div className="flex items-center gap-2.5"><div className="w-2 h-2 rounded-full bg-[#D9B26E]" /> Resposta em até 4h úteis</div>
+    <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 mt-12 text-[10px] font-black text-gray-400 uppercase tracking-[0.25em]">
+       <div className="flex items-center gap-2.5 transition-colors hover:text-gray-600">
+         <div className="w-1.5 h-1.5 rounded-full bg-[#D9B26E] shadow-[0_0_8px_rgba(217,178,110,0.6)] animate-pulse" /> 
+         +2.500 Diagnósticos Realizados
+       </div>
+       <div className="flex items-center gap-2.5 transition-colors hover:text-gray-600">
+         <div className="w-1.5 h-1.5 rounded-full bg-[#D9B26E]" /> 
+         Metodologia Valeur 2.0
+       </div>
+       <div className="flex items-center gap-2.5 transition-colors hover:text-gray-600">
+         <div className="w-1.5 h-1.5 rounded-full bg-[#D9B26E]" /> 
+         Resposta em até 4h úteis
+       </div>
     </div>
   );
 
@@ -177,59 +190,39 @@ export default function App() {
   );
 
   const SocialProofTicker = () => {
-    const [logos, setLogos] = useState<any[]>([]);
-    
-    useEffect(() => {
-      const fetchLogos = async () => {
-        try {
-          const q = query(collection(db, 'logos'), orderBy('order', 'asc'));
-          const querySnapshot = await getDocs(q);
-          const docs = querySnapshot.docs.map(doc => doc.data());
-          if (docs.length > 0) setLogos(docs);
-          else {
-            // Fallback
-            setLogos([
-              { name: 'TechFlow', url: '/logos/logo1.png' },
-              { name: 'MedGroup', url: '/logos/logo2.png' },
-              { name: 'Logix', url: '/logos/logo3.png' },
-              { name: 'Solaris', url: '/logos/logo4.png' },
-              { name: 'UrbanSpace', url: '/logos/logo5.png' },
-              { name: 'EduPeak', url: '/logos/logo6.png' }
-            ]);
-          }
-        } catch (e) {
-          console.error(e);
-          setLogos([
-            { name: 'TechFlow', url: '/logos/logo1.png' },
-            { name: 'MedGroup', url: '/logos/logo2.png' },
-            { name: 'Logix', url: '/logos/logo3.png' },
-            { name: 'Solaris', url: '/logos/logo4.png' },
-            { name: 'UrbanSpace', url: '/logos/logo5.png' },
-            { name: 'EduPeak', url: '/logos/logo6.png' }
-          ]);
-        }
-      };
-      fetchLogos();
-    }, []);
-
     return (
-      <div className="mt-12 pt-10 border-t border-gray-100 flex flex-col items-center">
-        <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.4em] mb-8 text-center px-4">Empresas que escalaram processos comerciais com a Valeur</p>
-        <div className="flex flex-wrap justify-center items-center gap-x-14 gap-y-10 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-700 max-w-3xl px-6">
-          {logos.map((logo, i) => (
+      <div className="mt-16 pt-12 border-t border-gray-100 flex flex-col items-center">
+        <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.5em] mb-12 text-center px-4 leading-loose">
+          Empresas que escalaram processos comerciais com a Valeur
+        </p>
+        <div className="flex flex-wrap justify-center items-center gap-x-14 gap-y-12 max-w-4xl px-8">
+          {CLIENTS.map((logo, i) => (
             <motion.div 
               key={i}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="h-8 md:h-10 w-auto flex items-center justify-center filter drop-shadow-sm"
+              transition={{ delay: i * 0.03, duration: 0.5, ease: "easeOut" }}
+              className="h-6 md:h-8 w-auto flex items-center justify-center grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-500 hover:scale-110"
             >
-              <img src={logo.url} alt={logo.name} className="h-full object-contain max-w-[120px]" referrerPolicy="no-referrer" />
+              <img 
+                src={logo.url} 
+                alt={logo.name} 
+                className="h-full object-contain max-w-[100px]" 
+                referrerPolicy="no-referrer" 
+              />
             </motion.div>
           ))}
         </div>
-        <p className="text-[10px] text-gray-300 mt-8 font-bold italic tracking-wider">E mais de 150 operações de vendas transformadas este ano</p>
+        <div className="mt-12 flex flex-col items-center gap-3">
+          <p className="text-[10px] text-[#D9B26E] font-black uppercase tracking-[0.25em] animate-pulse">
+            Transformando operações de vendas em todo o Brasil
+          </p>
+          <div className="h-px w-8 bg-gray-200" />
+          <p className="text-[9px] text-gray-300 font-bold italic tracking-wider">
+            E mais de 150 empresas mentoradas este ano
+          </p>
+        </div>
       </div>
     );
   };
@@ -302,8 +295,6 @@ export default function App() {
           </p>
         </div>
 
-        <SocialProofTicker />
-
         {/* Video Player Box */}
         <div className="w-full aspect-video bg-black rounded-xl shadow-2xl overflow-hidden relative border-4 border-white/5 max-w-3xl">
           <YouTube 
@@ -358,7 +349,17 @@ export default function App() {
               </div>
 
               {/* Form Body */}
-              <div className="p-8 md:p-12 relative">
+              <div className="p-8 md:p-12 relative min-h-[400px]">
+                {loading && (
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="absolute inset-0 z-50 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center"
+                  >
+                    <div className="w-12 h-12 border-4 border-gray-100 border-t-[#D9B26E] rounded-full animate-spin mb-4" />
+                    <p className="text-xs font-black text-gray-900 uppercase tracking-widest">Enviando aplicação...</p>
+                  </motion.div>
+                )}
                 <AnimatePresence mode="wait">
                   {!isTransitioning && (
                     <motion.div
@@ -374,7 +375,7 @@ export default function App() {
                           <div className="space-y-6">
                             <header>
                               <ScarcityBadge />
-                              <p className="text-[10px] font-eyebrow font-black text-[#D9B26E] uppercase tracking-[0.2em] mb-2">ETAPA 1 DE 5 · DIAGNÓSTICO</p>
+                              <p className="text-[10px] font-eyebrow font-black text-[#D9B26E] uppercase tracking-[0.2em] mb-2">ETAPA 1 DE 6 · DIAGNÓSTICO</p>
                               <h4 className="text-2xl md:text-3xl font-display font-black text-gray-900 leading-tight">Qual destes é o seu maior travamento hoje?</h4>
                               <p className="text-gray-500 mt-2">Onde está a maior alavanca de receita parada na sua operação?</p>
                             </header>
@@ -395,7 +396,7 @@ export default function App() {
                         {currentStep === 1 && (
                           <div className="space-y-6">
                             <header>
-                              <p className="text-[10px] font-eyebrow font-black text-[#D9B26E] uppercase tracking-[0.2em] mb-2">ETAPA 2 DE 5 · SEGMENTO</p>
+                              <p className="text-[10px] font-eyebrow font-black text-[#D9B26E] uppercase tracking-[0.2em] mb-2">ETAPA 2 DE 6 · SEGMENTO</p>
                               <h4 className="text-2xl md:text-3xl font-display font-black text-gray-900 leading-tight">Qual o segmento da sua empresa?</h4>
                               <p className="text-gray-500 mt-2">Selecione a área que melhor representa seu negócio.</p>
                             </header>
@@ -410,7 +411,7 @@ export default function App() {
                         {currentStep === 2 && (
                           <div className="space-y-6">
                             <header>
-                              <p className="text-[10px] font-eyebrow font-black text-[#D9B26E] uppercase tracking-[0.2em] mb-2">ETAPA 3 DE 5 · PERFIL</p>
+                              <p className="text-[10px] font-eyebrow font-black text-[#D9B26E] uppercase tracking-[0.2em] mb-2">ETAPA 3 DE 6 · PERFIL</p>
                               <h4 className="text-2xl md:text-3xl font-display font-black text-gray-900 leading-tight">Qual é o seu papel hoje na empresa?</h4>
                               <p className="text-gray-500 mt-2">Personalize seu diagnóstico de acordo com sua função.</p>
                             </header>
@@ -425,7 +426,7 @@ export default function App() {
                         {currentStep === 3 && (
                           <div className="space-y-6">
                             <header>
-                              <p className="text-[10px] font-eyebrow font-black text-[#D9B26E] uppercase tracking-[0.2em] mb-2">ETAPA 4 DE 5 · RECEITA</p>
+                              <p className="text-[10px] font-eyebrow font-black text-[#D9B26E] uppercase tracking-[0.2em] mb-2">ETAPA 4 DE 6 · RECEITA</p>
                               <h4 className="text-2xl md:text-3xl font-display font-black text-gray-900 leading-tight">Qual a receita média mensal da empresa?</h4>
                               <p className="text-gray-500 mt-2">Essa informação nos ajuda a direcionar a melhor estratégia para sua escala.</p>
                             </header>
@@ -560,11 +561,13 @@ export default function App() {
                             </div>
                           </div>
                         </div>
-                        <SocialProofTicker />
                       </form>
                     </motion.div>
                   )}
                 </AnimatePresence>
+              </div>
+              <div className="bg-gray-50/50 border-t border-gray-100 pb-12">
+                <SocialProofTicker />
               </div>
             </motion.div>
           )}
