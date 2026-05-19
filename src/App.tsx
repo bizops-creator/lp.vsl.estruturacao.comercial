@@ -191,8 +191,8 @@ export default function App() {
 
   const SocialProofTicker = () => {
     return (
-      <div className="mt-16 pt-12 border-t border-gray-100 flex flex-col items-center">
-        <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.5em] mb-12 text-center px-4 leading-loose">
+      <div className="flex flex-col items-center">
+        <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.5em] mb-12 text-center px-4 leading-loose">
           Empresas que escalaram processos comerciais com a Valeur
         </p>
         <div className="flex flex-wrap justify-center items-center gap-x-14 gap-y-12 max-w-4xl px-8">
@@ -218,8 +218,8 @@ export default function App() {
           <p className="text-[10px] text-[#D9B26E] font-black uppercase tracking-[0.25em] animate-pulse">
             Transformando operações de vendas em todo o Brasil
           </p>
-          <div className="h-px w-8 bg-gray-200" />
-          <p className="text-[9px] text-gray-300 font-bold italic tracking-wider">
+          <div className="h-px w-8 bg-gray-300" />
+          <p className="text-[9px] text-gray-500 font-bold italic tracking-wider">
             E mais de 150 empresas mentoradas este ano
           </p>
         </div>
@@ -566,7 +566,7 @@ export default function App() {
                   )}
                 </AnimatePresence>
               </div>
-              <div className="bg-gray-50/50 border-t border-gray-100 pb-12">
+              <div className="bg-gray-100 border-t border-gray-200 py-12">
                 <SocialProofTicker />
               </div>
             </motion.div>
