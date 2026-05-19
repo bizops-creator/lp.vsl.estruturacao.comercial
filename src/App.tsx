@@ -203,12 +203,12 @@ export default function App() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.03, duration: 0.5, ease: "easeOut" }}
-              className="h-6 md:h-8 w-auto flex items-center justify-center grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-500 hover:scale-110"
+              className="h-8 md:h-10 w-auto flex items-center justify-center transition-all duration-500 hover:scale-110"
             >
               <img 
                 src={logo.url} 
                 alt={logo.name} 
-                className="h-full object-contain max-w-[100px]" 
+                className="h-full object-contain max-w-[120px] filter drop-shadow-sm" 
                 referrerPolicy="no-referrer" 
               />
             </motion.div>
