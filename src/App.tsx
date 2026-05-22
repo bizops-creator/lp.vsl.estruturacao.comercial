@@ -224,8 +224,8 @@ export default function App() {
                   alt={logo.name} 
                   style={{
                     filter: isHovered 
-                      ? "drop-shadow(0px 3px 6px rgba(0,0,0,0.35)) drop-shadow(0px 12px 20px rgba(0,0,0,0.25)) drop-shadow(0px 20px 35px rgba(0,0,0,0.15))"
-                      : "drop-shadow(0px 1.5px 3px rgba(0,0,0,0.22)) drop-shadow(0px 6px 12px rgba(0,0,0,0.15))"
+                      ? "drop-shadow(0px 4px 8px rgba(0,0,0,0.5)) drop-shadow(0px 15px 25px rgba(0,0,0,0.4)) drop-shadow(0px 25px 45px rgba(0,0,0,0.3))"
+                      : "drop-shadow(0px 2px 4px rgba(0,0,0,0.4)) drop-shadow(0px 8px 16px rgba(0,0,0,0.3)) drop-shadow(0px 12px 24px rgba(0,0,0,0.15))"
                   }}
                   className="h-full object-contain max-h-11 max-w-full transition-all duration-300 transform-gpu" 
                   referrerPolicy="no-referrer" 
@@ -586,15 +586,15 @@ export default function App() {
                   )}
                 </AnimatePresence>
               </div>
-              <div className="relative bg-gradient-to-b from-[#F5F5F7] via-[#EEEEF0] to-[#E6E6E9] border-t border-zinc-200/60 py-16 overflow-hidden">
-                {/* Clean subtle micro grid pattern on silver/light-gray background */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.015)_1px,transparent_1px)] bg-[size:28px_28px] pointer-events-none" />
+              <div className="relative bg-gradient-to-b from-[#E4E4E7] via-[#D8D8DC] to-[#CDCDD2] border-t border-zinc-300/60 py-16 overflow-hidden">
+                {/* Clean subtle micro grid pattern on silver background */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:28px_28px] pointer-events-none" />
                 
                 {/* Soft Gold Branding radial light glow */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[radial-gradient(circle_at_center,rgba(217,178,110,0.04)_0%,transparent_70%)] pointer-events-none filter blur-2xl" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[radial-gradient(circle_at_center,rgba(217,178,110,0.06)_0%,transparent_70%)] pointer-events-none filter blur-2xl" />
                 
                 {/* Fine silver layout line */}
-                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-zinc-300/60 to-transparent" />
+                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-zinc-400/50 to-transparent" />
                 
                 <div className="relative z-10">
                   <SocialProofTicker />
