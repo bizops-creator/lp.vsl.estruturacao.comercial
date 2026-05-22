@@ -194,7 +194,7 @@ export default function App() {
 
     return (
       <div className="flex flex-col items-center">
-        <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.4em] mb-12 text-center px-4 leading-loose">
+        <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.4em] mb-12 text-center px-4 leading-loose">
           Empresas que escalaram processos comerciais com a Valeur
         </p>
         <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 max-w-5xl px-8">
@@ -224,8 +224,8 @@ export default function App() {
                   alt={logo.name} 
                   style={{
                     filter: isHovered 
-                      ? "drop-shadow(0px 3px 5px rgba(0,0,0,0.45)) drop-shadow(0px 14px 24px rgba(0,0,0,0.35)) drop-shadow(0px 24px 40px rgba(0,0,0,0.25))"
-                      : "drop-shadow(0px 1.5px 3px rgba(0,0,0,0.3)) drop-shadow(0px 6px 14px rgba(0,0,0,0.2)) drop-shadow(0px 12px 24px rgba(0,0,0,0.1))"
+                      ? "drop-shadow(0px 3px 6px rgba(0,0,0,0.35)) drop-shadow(0px 12px 20px rgba(0,0,0,0.25)) drop-shadow(0px 20px 35px rgba(0,0,0,0.15))"
+                      : "drop-shadow(0px 1.5px 3px rgba(0,0,0,0.22)) drop-shadow(0px 6px 12px rgba(0,0,0,0.15))"
                   }}
                   className="h-full object-contain max-h-11 max-w-full transition-all duration-300 transform-gpu" 
                   referrerPolicy="no-referrer" 
@@ -238,8 +238,8 @@ export default function App() {
           <p className="text-[10px] text-[#A67C37] font-black uppercase tracking-[0.25em] animate-pulse">
             Transformando operações de vendas em todo o Brasil
           </p>
-          <div className="h-px w-8 bg-zinc-200" />
-          <p className="text-[9px] text-zinc-400 font-bold italic tracking-wider">
+          <div className="h-px w-8 bg-zinc-300" />
+          <p className="text-[9px] text-zinc-500 font-bold italic tracking-wider">
             E mais de 150 empresas mentoradas este ano
           </p>
         </div>
@@ -586,15 +586,15 @@ export default function App() {
                   )}
                 </AnimatePresence>
               </div>
-              <div className="relative bg-white border-t border-zinc-100 py-16 overflow-hidden">
-                {/* Clean subtle micro grid pattern on white/light background */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.012)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.012)_1px,transparent_1px)] bg-[size:28px_28px] pointer-events-none" />
+              <div className="relative bg-gradient-to-b from-[#F5F5F7] via-[#EEEEF0] to-[#E6E6E9] border-t border-zinc-200/60 py-16 overflow-hidden">
+                {/* Clean subtle micro grid pattern on silver/light-gray background */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.015)_1px,transparent_1px)] bg-[size:28px_28px] pointer-events-none" />
                 
                 {/* Soft Gold Branding radial light glow */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[radial-gradient(circle_at_center,rgba(217,178,110,0.03)_0%,transparent_70%)] pointer-events-none filter blur-2xl" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[radial-gradient(circle_at_center,rgba(217,178,110,0.04)_0%,transparent_70%)] pointer-events-none filter blur-2xl" />
                 
                 {/* Fine silver layout line */}
-                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-zinc-200/50 to-transparent" />
+                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-zinc-300/60 to-transparent" />
                 
                 <div className="relative z-10">
                   <SocialProofTicker />
