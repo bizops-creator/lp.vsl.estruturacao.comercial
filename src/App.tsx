@@ -190,36 +190,56 @@ export default function App() {
   );
 
   const SocialProofTicker = () => {
+    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
     return (
       <div className="flex flex-col items-center">
-        <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.5em] mb-12 text-center px-4 leading-loose">
+        <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.4em] mb-12 text-center px-4 leading-loose">
           Empresas que escalaram processos comerciais com a Valeur
         </p>
-        <div className="flex flex-wrap justify-center items-center gap-x-14 gap-y-12 max-w-4xl px-8">
-          {CLIENTS.map((logo, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.03, duration: 0.5, ease: "easeOut" }}
-              className="h-8 md:h-10 w-auto flex items-center justify-center transition-all duration-500 hover:scale-110"
-            >
-              <img 
-                src={logo.url} 
-                alt={logo.name} 
-                className="h-full object-contain max-w-[120px] filter drop-shadow-sm" 
-                referrerPolicy="no-referrer" 
-              />
-            </motion.div>
-          ))}
+        <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 max-w-5xl px-8">
+          {CLIENTS.map((logo, i) => {
+            const isHovered = hoveredIndex === i;
+            return (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, scale: 0.85, y: 15 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                onHoverStart={() => setHoveredIndex(i)}
+                onHoverEnd={() => setHoveredIndex(null)}
+                whileHover={{ 
+                  y: -8, 
+                  scale: 1.12,
+                }}
+                viewport={{ once: true }}
+                transition={{ 
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 22
+                }}
+                className="h-14 w-32 flex items-center justify-center cursor-pointer select-none"
+              >
+                <img 
+                  src={logo.url} 
+                  alt={logo.name} 
+                  style={{
+                    filter: isHovered 
+                      ? "drop-shadow(0px 3px 5px rgba(0,0,0,0.45)) drop-shadow(0px 14px 24px rgba(0,0,0,0.35)) drop-shadow(0px 24px 40px rgba(0,0,0,0.25))"
+                      : "drop-shadow(0px 1.5px 3px rgba(0,0,0,0.3)) drop-shadow(0px 6px 14px rgba(0,0,0,0.2)) drop-shadow(0px 12px 24px rgba(0,0,0,0.1))"
+                  }}
+                  className="h-full object-contain max-h-11 max-w-full transition-all duration-300 transform-gpu" 
+                  referrerPolicy="no-referrer" 
+                />
+              </motion.div>
+            );
+          })}
         </div>
         <div className="mt-12 flex flex-col items-center gap-3">
-          <p className="text-[10px] text-[#D9B26E] font-black uppercase tracking-[0.25em] animate-pulse">
+          <p className="text-[10px] text-[#A67C37] font-black uppercase tracking-[0.25em] animate-pulse">
             Transformando operações de vendas em todo o Brasil
           </p>
-          <div className="h-px w-8 bg-gray-300" />
-          <p className="text-[9px] text-gray-500 font-bold italic tracking-wider">
+          <div className="h-px w-8 bg-zinc-200" />
+          <p className="text-[9px] text-zinc-400 font-bold italic tracking-wider">
             E mais de 150 empresas mentoradas este ano
           </p>
         </div>
@@ -566,8 +586,19 @@ export default function App() {
                   )}
                 </AnimatePresence>
               </div>
-              <div className="bg-gray-100 border-t border-gray-200 py-12">
-                <SocialProofTicker />
+              <div className="relative bg-white border-t border-zinc-100 py-16 overflow-hidden">
+                {/* Clean subtle micro grid pattern on white/light background */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.012)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.012)_1px,transparent_1px)] bg-[size:28px_28px] pointer-events-none" />
+                
+                {/* Soft Gold Branding radial light glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[radial-gradient(circle_at_center,rgba(217,178,110,0.03)_0%,transparent_70%)] pointer-events-none filter blur-2xl" />
+                
+                {/* Fine silver layout line */}
+                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-zinc-200/50 to-transparent" />
+                
+                <div className="relative z-10">
+                  <SocialProofTicker />
+                </div>
               </div>
             </motion.div>
           )}
